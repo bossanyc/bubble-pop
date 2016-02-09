@@ -33,38 +33,81 @@
 },{}],2:[function(require,module,exports){
 'use strict';
 
-var _grid2 = require('./modules/grid.jsx');
-
-var _view = require('./modules/view.jsx');
-
-var _plotter = require('./modules/plotter.jsx');
-
-var _logo = require('./modules/animation/logo.jsx');
-
 var domready = require('domready');
 
-domready(function () {
-  var canvas = document.getElementById('sketch');
-  var _grid = new _grid2.Grid(canvas);
-  _grid.draw();
+var _width = 1900;
+var _height = 900;
 
-  new _logo.LogoAnimation(canvas);
+var renderer = PIXI.autoDetectRenderer(_width, _height);
+var stage = new PIXI.Container();
+
+var movie;
+
+domready(function () {
+  //var canvas = document.getElementById('sketch');
+  document.body.appendChild(renderer.view);
+
+  PIXI.loader.add('json/fighter.json').load(onAssetsLoaded);
+
+  function onAssetsLoaded() {
+    //return
+    var frames = [];
+    var _sequence = 'rollSequence00';
+
+    for (var i = 0; i < 30; i++) {
+      var val = i < 10 ? '0' + i : i;
+
+      frames.push(PIXI.Texture.fromFrame(_sequence + val + '.png'));
+    }
+
+    movie = new PIXI.extras.MovieClip(frames);
+
+    movie.position.set(300);
+    movie.anchor.set(0.5);
+    movie.animationSpeed = 0.5;
+
+    movie.play();
+
+    stage.addChild(movie);
+
+    animate();
+  }
+
+  function animate() {
+    //movie.rotation += 0.01;
+
+    renderer.render(stage);
+    window.requestAnimationFrame(animate);
+  }
+
+  var isStopped = false;
+
+  window.addEventListener('mousedown', function () {
+
+    if (isStopped) {
+      movie.play();
+      isStopped = false;
+    } else {
+      movie.stop();
+      isStopped = true;
+    }
+  });
 });
 
-},{"./modules/animation/logo.jsx":5,"./modules/grid.jsx":6,"./modules/plotter.jsx":7,"./modules/view.jsx":8,"domready":1}],3:[function(require,module,exports){
+},{"domready":1}],3:[function(require,module,exports){
 "use strict";
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var json = require("../json/logo.json");
 
-var GFXChildren = (function () {
+var GFXChildren = function () {
   function GFXChildren(length) {
     _classCallCheck(this, GFXChildren);
 
@@ -73,6 +116,7 @@ var GFXChildren = (function () {
   }
 
   // Add the SVG group
+
 
   _createClass(GFXChildren, [{
     key: "add",
@@ -87,7 +131,7 @@ var GFXChildren = (function () {
   }]);
 
   return GFXChildren;
-})();
+}();
 
 var Group = function Group(data) {
   _classCallCheck(this, Group);
@@ -95,7 +139,7 @@ var Group = function Group(data) {
   console.log(data);
 };
 
-var LogoRenderer = (function () {
+var LogoRenderer = function () {
   function LogoRenderer(canvas) {
     _classCallCheck(this, LogoRenderer);
 
@@ -124,7 +168,7 @@ var LogoRenderer = (function () {
   }]);
 
   return LogoRenderer;
-})();
+}();
 
 var _proto = LogoRenderer.prototype;
 _proto.graphics = new GFXChildren(0);
@@ -157,17 +201,17 @@ exports.LogoAnimation = LogoAnimation;
 },{"../../graphics/renderer.jsx":3}],6:[function(require,module,exports){
 "use strict";
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // functionality
 
-var Grid = (function () {
+var Grid = function () {
   function Grid(canvas) {
     _classCallCheck(this, Grid);
 
@@ -219,9 +263,10 @@ var Grid = (function () {
   }]);
 
   return Grid;
-})();
+}();
 
 // properties
+
 
 var _proto = Grid.prototype;
 _proto.amount = 100;
