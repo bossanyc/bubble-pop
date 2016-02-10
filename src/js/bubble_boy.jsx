@@ -24,6 +24,9 @@ class BubbleBoy{
 
     this.movie = new PIXI.extras.MovieClip( frames );
     //this.movie.setInteractive( true );
+    this.movie.scale.set( 0.75, 0.75 );
+    this.movie.anchor.set( 0.5 );
+    this.movie.position.set( 300, 200 );
 
     this.displayObject.addChild( this.movie );
     this.stage.addChild( this.displayObject );
@@ -41,7 +44,6 @@ class BubbleBoy{
   }
 
   idle(){
-    console.log('now idle');
     this.state = 'idle';
     this.movie.gotoAndPlay( this.IDLE_START_FRAME );
 
@@ -49,20 +51,17 @@ class BubbleBoy{
   }
 
   blow(){
-    console.log('now blowing');
     this.state = 'blowing';
     this.movie.gotoAndPlay( this.BLOWING_START_FRAME );
   }
 
   pop(){
-    console.log('now popped');
     this.state = 'popped';
     this.popped++;
     this.movie.gotoAndPlay( this.POP_START_FRAME );
     //this.movie.animationSpeed *= -1;
   }
   deflate(){
-    console.log('now deflating');
     this.state = 'deflating';
     this.movie.gotoAndPlay( this.DEFLATING_START_FRAME );
     //this.movie.animationSpeed *= -1;
@@ -85,13 +84,11 @@ class BubbleBoy{
 
       case('popped'):
         if (this.movie.currentFrame > this.POP_END_FRAME){
-          console.log('greater');
           this.idle();
         }
         break;
 
       case('deflating'):
-        console.log(this.movie.currentFrame);
         if (this.movie.currentFrame > this.DEFLATING_END_FRAME){
           this.missed++;
           this.idle();

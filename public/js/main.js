@@ -37,7 +37,7 @@ var _bubble_boy2 = require('./bubble_boy.jsx');
 
 var domready = require('domready');
 
-var _width = 1900;
+var _width = 1000;
 var _height = 900;
 
 var renderer = PIXI.autoDetectRenderer(_width, _height);
@@ -78,7 +78,6 @@ domready(function () {
 
       var yOff = i % 2;
       var xOff = ~ ~(i / 2);
-      console.log(xOff, yOff);
 
       bubble_boy.displayObject.position.set(xOff * spacing, yOff * spacing);
 
@@ -173,6 +172,9 @@ var BubbleBoy = function () {
 
       this.movie = new PIXI.extras.MovieClip(frames);
       //this.movie.setInteractive( true );
+      this.movie.scale.set(0.75, 0.75);
+      this.movie.anchor.set(0.5);
+      this.movie.position.set(300, 200);
 
       this.displayObject.addChild(this.movie);
       this.stage.addChild(this.displayObject);
@@ -199,7 +201,6 @@ var BubbleBoy = function () {
   }, {
     key: 'idle',
     value: function idle() {
-      console.log('now idle');
       this.state = 'idle';
       this.movie.gotoAndPlay(this.IDLE_START_FRAME);
 
@@ -208,14 +209,12 @@ var BubbleBoy = function () {
   }, {
     key: 'blow',
     value: function blow() {
-      console.log('now blowing');
       this.state = 'blowing';
       this.movie.gotoAndPlay(this.BLOWING_START_FRAME);
     }
   }, {
     key: 'pop',
     value: function pop() {
-      console.log('now popped');
       this.state = 'popped';
       this.popped++;
       this.movie.gotoAndPlay(this.POP_START_FRAME);
@@ -224,7 +223,6 @@ var BubbleBoy = function () {
   }, {
     key: 'deflate',
     value: function deflate() {
-      console.log('now deflating');
       this.state = 'deflating';
       this.movie.gotoAndPlay(this.DEFLATING_START_FRAME);
       //this.movie.animationSpeed *= -1;
@@ -247,13 +245,11 @@ var BubbleBoy = function () {
 
         case 'popped':
           if (this.movie.currentFrame > this.POP_END_FRAME) {
-            console.log('greater');
             this.idle();
           }
           break;
 
         case 'deflating':
-          console.log(this.movie.currentFrame);
           if (this.movie.currentFrame > this.DEFLATING_END_FRAME) {
             this.missed++;
             this.idle();

@@ -11,3 +11,7 @@ body {
   height: 800px;
   background: white;
   margin: auto; }
+
+canvas {
+  margin: auto;
+  display: block; }

@@ -2,7 +2,7 @@ var domready = require('domready');
 
 import { BubbleBoy } from './bubble_boy.jsx'
 
-const _width = 1900;
+const _width = 1000;
 const _height = 900;
 
 const renderer = PIXI.autoDetectRenderer( _width, _height);
@@ -52,7 +52,6 @@ domready( function(){
 
       var yOff = i % 2;
       var xOff = ~~(i / 2);
-      console.log(xOff, yOff);
 
       bubble_boy.displayObject.position.set( xOff * spacing, yOff * spacing );
 
