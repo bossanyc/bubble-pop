@@ -1,10 +1,11 @@
 {
-  "name": "studies",
+  "name": "bubble_boy",
   "version": "1.0.0",
-  "description": "programmatic studies",
-  "main": "index.js",
+  "description": "",
+  "main": "./index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"index.js"
   },
   "author": "dhaakon",
   "license": "ISC",
