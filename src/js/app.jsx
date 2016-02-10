@@ -25,7 +25,7 @@ domready( function(){
 
   let bubble_boys = [];
   var bubble_boy;
-  var maxBubbleBoys = 6;
+  var maxBubbleBoys = 4;
 
   PIXI.loader
       .add('json/half_bubble_00.json')
