@@ -88,7 +88,7 @@ domready( function(){
       var _bubble_boy = bubble_boys[_b];
 
       if( time % _bubble_boy.rate === 0 ){
-        if( _bubble_boy.state !== 'blowing' ) _bubble_boy.blow();
+        if( _bubble_boy.state == 'idle' ) _bubble_boy.blow();
       }
 
       count += _bubble_boy.popped;

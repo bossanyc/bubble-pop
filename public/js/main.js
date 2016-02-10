@@ -114,7 +114,7 @@ domready(function () {
       var _bubble_boy = bubble_boys[_b];
 
       if (time % _bubble_boy.rate === 0) {
-        if (_bubble_boy.state !== 'blowing') _bubble_boy.blow();
+        if (_bubble_boy.state == 'idle') _bubble_boy.blow();
       }
 
       count += _bubble_boy.popped;
@@ -194,7 +194,7 @@ var BubbleBoy = function () {
   }, {
     key: 'action',
     value: function action() {
-      if (this.state == 'blowing' && this.movie.currentFrame < 102) this.deflate();
+      if (this.state == 'blowing' && this.movie.currentFrame < 102) this.pop();
     }
   }, {
     key: 'idle',
@@ -213,12 +213,22 @@ var BubbleBoy = function () {
       this.movie.gotoAndPlay(this.BLOWING_START_FRAME);
     }
   }, {
+    key: 'pop',
+    value: function pop() {
+      console.log('now popped');
+      this.state = 'popped';
+      this.popped++;
+      this.movie.gotoAndPlay(this.POP_START_FRAME);
+      //this.movie.animationSpeed *= -1;
+    }
+  }, {
     key: 'deflate',
     value: function deflate() {
       console.log('now deflating');
       this.state = 'deflating';
-      this.popped++;
-      this.movie.animationSpeed *= -1;
+      this.missed++;
+      this.movie.gotoAndPlay(this.DEFLATING_START_FRAME);
+      //this.movie.animationSpeed *= -1;
     }
   }, {
     key: 'update',
@@ -232,16 +242,23 @@ var BubbleBoy = function () {
 
         case 'blowing':
           if (this.movie.currentFrame > this.BLOWING_END_FRAME) {
-            this.missed++;
+            this.deflate();
+          }
+          break;
+
+        case 'popped':
+          if (this.movie.currentFrame > this.POP_END_FRAME) {
+            console.log('greater');
             this.idle();
           }
           break;
 
         case 'deflating':
-          if (this.movie.currentFrame < this.IDLE_END_FRAME) {
-            this.popped++;
+          console.log(this.movie.currentFrame);
+          if (this.movie.currentFrame > this.DEFLATING_END_FRAME) {
             this.idle();
           }
+          break;
 
         default:
           break;
@@ -280,8 +297,15 @@ proto.missed = 0;
 
 proto.IDLE_START_FRAME = 1;
 proto.IDLE_END_FRAME = 68;
+
 proto.BLOWING_START_FRAME = 80;
-proto.BLOWING_END_FRAME = 120;
+proto.BLOWING_END_FRAME = 100;
+
+proto.POP_START_FRAME = 103;
+proto.POP_END_FRAME = 120;
+
+proto.DEFLATING_START_FRAME = 175;
+proto.DEFLATING_END_FRAME = 196;
 
 exports.BubbleBoy = BubbleBoy;
 
