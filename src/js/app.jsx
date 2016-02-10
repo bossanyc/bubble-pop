@@ -16,7 +16,6 @@ const maxRate = 600;
 
 let time = 0;
 
-
 stage.interactive = true;
 
 domready( function(){
@@ -26,6 +25,7 @@ domready( function(){
   let bubble_boys = [];
   var bubble_boy;
   var maxBubbleBoys = 4;
+
 
   PIXI.loader
       .add('json/half_bubble_00.json')

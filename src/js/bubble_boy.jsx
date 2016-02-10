@@ -37,7 +37,7 @@ class BubbleBoy{
   }
 
   action(){
-    if( this.state == 'blowing' && this.movie.currentFrame < 102 ) this.pop();
+    if( this.state == 'blowing' || this.state == 'deflating' ) this.pop();
   }
 
   idle(){
@@ -64,7 +64,6 @@ class BubbleBoy{
   deflate(){
     console.log('now deflating');
     this.state = 'deflating';
-    this.missed++;
     this.movie.gotoAndPlay( this.DEFLATING_START_FRAME );
     //this.movie.animationSpeed *= -1;
   }
@@ -94,6 +93,7 @@ class BubbleBoy{
       case('deflating'):
         console.log(this.movie.currentFrame);
         if (this.movie.currentFrame > this.DEFLATING_END_FRAME){
+          this.missed++;
           this.idle();
         }
         break;
@@ -131,7 +131,7 @@ proto.POP_START_FRAME = 103;
 proto.POP_END_FRAME = 120;
 
 proto.DEFLATING_START_FRAME = 175;
-proto.DEFLATING_END_FRAME = 196;
+proto.DEFLATING_END_FRAME = 188;
 
 export { BubbleBoy };
 
